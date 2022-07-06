@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+    #new-post {
+        background-color: aqua;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div>
+    {% include "post_create.html" %}
+</div>
+<div id="post-list">
+    {% for post in posts %}
+        <div class="post">
+            <div>
+                {{post.description}}
+            </div>
+            <div>
+                {{post.user.email}}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    $('#post-create-form').submit(function (e) {
+
+        e.preventDefault();
+        var senddata = $(this).serializeArray();
+        var sendto = $(this).attr("action");
+    
+        $.ajax({
+            url: sendto,
+            type: 'POST',
+            data: senddata,
+            success: function (data) {
+                console.log("post create")
+                console.log(data.description)
+                console.log(data.user)
+                console.log($('#post-list'))
+                $('#post-list').prepend(`<div id='new-post' class='post'><div>${data.description}</div><div>${data.user.email}</div></div><br>`);
+                
+            },
+            error: function (error) {
+                $('#post-list').html(error);
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Bootstrap demo{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        .red {
+            background-color: tomato
+        }
+        .yellow {
+            background-color: beige
+        }
+        .green {
+            background-color: goldenrod
+        }
+    </style>
+    {% block styles %}
+    {% endblock %}
+    </head>
+  <body>
+    <div id="test" class="red">TEST</div>
+    <button onclick="myfunction()">CLick</button>
+    {% block content %}<h1>Hello, world!</h1>{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script>
+        var current_color = document.getElementById("test").className
+        document.getElementById("test").onmouseover = function set_green () {
+            current_color = document.getElementById("test").className
+            document.getElementById("test").className = "green"
+        }
+        document.getElementById("test").onmouseout = function unset_green () {
+            document.getElementById("test").className = current_color
+        }
+        function myfunction() {
+            console.log(document.getElementById("test"))
+            if (document.getElementById("test").className == "yellow") {
+                document.getElementById("test").className = "red"
+            } else {
+                document.getElementById("test").className = "yellow"
+            }
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "/me-ajax",
+                success: function(data) {
+                    console.log(data)
+                    const newDiv = document.createElement("div");
+                    const newContent = document.createTextNode(data.email);
+                    newDiv.appendChild(newContent);
+                    const currentDiv = document.getElementById("test");
+                    document.body.insertBefore(newDiv, currentDiv);
+                }
+            })
+        })
+    </script>
+    {% block scripts %}{% endblock  %}
+  </body>
+</html>

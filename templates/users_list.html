@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for user in users %}
+        <div class="user">
+            <a href="{{ url_for('users_detail', user_id=user.id) }}">{{ user }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block scripts %}
+<script>
+    var users = document.getElementsByClassName("user")
+    for (let i = 0; i < users.length; i++) {
+        user = users[i]
+        console.log(user)
+        if (i % 2 == 0){
+            user.classList.add("red")
+        } else {
+            user.classList.add("yellow")
+        }
+    }
+</script>
+{% endblock %}
